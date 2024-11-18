@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: services-service-app
+  labels:
+    app: services-service-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app : services-service-app
+  template:
+    metadata:
+      labels:
+        app: services-service-app
+    spec:
+      containers:
+      - name: services-service-app
+        image: anurag2401/services-service:v1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9008
+
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  services-service-svc
+spec:
+  selector:
+    app:  services-service-app
+  ports:
+  - port:  80
+    targetPort:  9008
